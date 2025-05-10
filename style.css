@@ -1,0 +1,405 @@
+.tieu-de {
+  background-color: #a31d1d;
+  color: white;
+  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+.noi-dung-tieu-de {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.chu-tieu-de {
+  text-align: left;
+}
+.dong-to {
+  font-size: 40px;
+  font-weight: bold;
+  display: block;
+  margin-left: 50px;
+}
+.dong-nho {
+  font-size: 20px;
+  display: block;
+  margin-top: 5px;
+  margin-left: 50px;
+}
+.logo-tieu-de img.logo {
+  height: 100px;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 100px;
+  left: 130px;
+  width: 90%;
+  height: 90%;
+  background-image: url("img/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: 0.2; /* tuỳ chỉnh độ mờ nếu muốn nhẹ nhàng hơn */
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#login-screen,
+.container,
+#settings-screen,
+#history-screen {
+  max-width: 1500px;
+  margin: 0 auto;
+  margin-top: 70px;
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(245, 9, 9, 0.1);
+}
+
+.login-form label {
+  display: inline-block;
+  width: 1000px;
+  margin: 12px 0 5px;
+  font-size: 1.8rem;
+}
+
+.login-form input,
+.login-form select {
+  width: calc(100% - 105px);
+  padding: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #504b4b;
+  border-radius: 2px;
+  font-size: 1.3rem;
+}
+
+.login-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+.login-form button:hover {
+  background-color: #45a049;
+}
+
+#quiz-container {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+#question-nav {
+  position: fixed;
+  right: 65px;
+  top: 300px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 4 cột */
+  gap: 10px; /* Khoảng cách giữa các nút */
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.nav-btn {
+  width: 60px; /* Tăng kích thước nút */
+  height: 60px; /* Tăng kích thước nút */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column; /* Sắp xếp số và chữ theo cột */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px; /* Tăng kích thước chữ */
+  transition: background-color 0.3s;
+  position: relative;
+}
+
+.nav-btn.answered {
+  background-color: green;
+  color: white;
+}
+
+.nav-btn.incorrect {
+  background-color: red; /* Màu đỏ cho câu sai hoặc chưa trả lời */
+  color: white;
+}
+
+.nav-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.nav-btn.answered:hover {
+  background-color: darkgreen;
+}
+
+.nav-btn.incorrect:hover {
+  background-color: darkred;
+}
+
+.nav-btn .status {
+  font-size: 12px; /* Kích thước chữ "Đúng"/"Sai" */
+  margin-top: 5px;
+}
+.question-block {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.question {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.choices-container {
+  margin-left: 20px;
+}
+
+.choice {
+  margin: 5px 0;
+}
+
+.choice input[type="radio"] {
+  margin-right: 10px;
+  transform: scale(1.5); /* tăng kích cỡ lên 1.5 lần */
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+}
+
+.correct {
+  background-color: #e0ffe0;
+  border-left: 4px solid #4caf50;
+  padding: 5px;
+}
+
+.incorrect {
+  background-color: #ffe0e0;
+  border-left: 4px solid #ff4444;
+  padding: 5px;
+}
+
+#result {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: green;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.button-group {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#submitBtn {
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  font-size: 20px;
+}
+
+#submitBtn:hover {
+  background-color: #1976d2;
+}
+
+#backBtn {
+  background-color: #24039b;
+  color: white;
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  font-size: 20px;
+}
+#settingsBtn {
+  background-color: #801a08;
+  color: white;
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  font-size: 20px;
+}
+#historyBtn {
+  background-color: #bb418cd3;
+  color: white;
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  font-size: 20px;
+}
+#backBtn:hover,
+#settingsBtn:hover,
+#historyBtn:hover {
+  background-color: #524e8b;
+}
+
+#backBtn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  font-size: 20px;
+}
+
+#timer-container {
+  text-align: center;
+  font-size: 22px;
+  color: #ff4444;
+  transform: scale(1.2); /* tăng kích cỡ lên 1.5 lần */
+  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.edit-btn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #1976d2;
+}
+
+.delete-btn {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+#addQuestionForm {
+  margin-top: 20px;
+}
+
+#addQuestionForm label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+#addQuestionForm textarea,
+#addQuestionForm input,
+#addQuestionForm select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#addQuestionForm button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#addQuestionForm button:first-of-type {
+  background-color: #4caf50;
+  color: white;
+}
+
+#addQuestionForm button:first-of-type:hover {
+  background-color: #45a049;
+}
+
+#addQuestionForm button:last-of-type {
+  background-color: #ff4444;
+  color: white;
+}
+
+#addQuestionForm button:last-of-type:hover {
+  background-color: #cc0000;
+}
+
+.history-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.history-item button {
+  padding: 5px 10px;
+  margin: 5px 5px 0 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.history-item button:first-of-type {
+  background-color: #2196f3;
+  color: white;
+}
+
+.history-item button:first-of-type:hover {
+  background-color: #1976d2;
+}
+
+.history-item button:last-of-type {
+  background-color: #4caf50;
+  color: white;
+}
+
+.history-item button:last-of-type:hover {
+  background-color: #45a049;
+}
+.print-history-btn {
+  margin: 10px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.print-history-btn:hover {
+  background-color: #45a049;
+}
