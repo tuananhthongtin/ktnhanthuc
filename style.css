@@ -42,7 +42,7 @@ body::before {
   background-position: center;
   background-repeat: no-repeat;
   z-index: -1;
-  opacity: 0.2; /* tuỳ chỉnh độ mờ nếu muốn nhẹ nhàng hơn */
+  opacity: 0.2;
 }
 body {
   font-family: Arial, sans-serif;
@@ -111,24 +111,24 @@ h1 {
   right: 65px;
   top: 300px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 4 cột */
-  gap: 10px; /* Khoảng cách giữa các nút */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
   max-height: 80vh;
   overflow-y: auto;
 }
 
 .nav-btn {
-  width: 60px; /* Tăng kích thước nút */
-  height: 60px; /* Tăng kích thước nút */
+  width: 60px;
+  height: 60px;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 5px;
   display: flex;
-  flex-direction: column; /* Sắp xếp số và chữ theo cột */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 20px; /* Tăng kích thước chữ */
+  font-size: 20px;
   transition: background-color 0.3s;
   position: relative;
 }
@@ -139,7 +139,7 @@ h1 {
 }
 
 .nav-btn.incorrect {
-  background-color: red; /* Màu đỏ cho câu sai hoặc chưa trả lời */
+  background-color: red;
   color: white;
 }
 
@@ -156,7 +156,7 @@ h1 {
 }
 
 .nav-btn .status {
-  font-size: 12px; /* Kích thước chữ "Đúng"/"Sai" */
+  font-size: 12px;
   margin-top: 5px;
 }
 .question-block {
@@ -181,8 +181,8 @@ h1 {
 
 .choice input[type="radio"] {
   margin-right: 10px;
-  transform: scale(1.5); /* tăng kích cỡ lên 1.5 lần */
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  transform: scale(1.5);
+  cursor: pointer;
 }
 
 .correct {
@@ -223,7 +223,7 @@ h1 {
 #submitBtn {
   background-color: #2196f3;
   color: white;
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  cursor: pointer;
   font-size: 20px;
 }
 
@@ -234,19 +234,19 @@ h1 {
 #backBtn {
   background-color: #24039b;
   color: white;
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  cursor: pointer;
   font-size: 20px;
 }
 #settingsBtn {
   background-color: #801a08;
   color: white;
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  cursor: pointer;
   font-size: 20px;
 }
 #historyBtn {
   background-color: #bb418cd3;
   color: white;
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+  cursor: pointer;
   font-size: 20px;
 }
 #backBtn:hover,
@@ -258,16 +258,46 @@ h1 {
 #backBtn:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
   font-size: 20px;
 }
 
-#timer-container {
-  text-align: center;
-  font-size: 22px;
-  color: #ff4444;
-  transform: scale(1.2); /* tăng kích cỡ lên 1.5 lần */
-  cursor: pointer; /* thêm hiệu ứng con trỏ khi hover */
+#fixed-timer {
+  position: fixed;
+  right: 60px; /* Cách mép phải 20px */
+  top: 60%; /* Căn giữa theo chiều dọc */
+  transform: translateY(-50%); /* Dịch chuyển lên để căn giữa */
+  background: linear-gradient(
+    135deg,
+    #ce9797,
+    #ad7a5f
+  ); /* Gradient màu nổi bật */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px; /* Bo góc mềm mại */
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  font-size: 1.4rem;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Bóng đổ hiện đại */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng mượt */
+}
+
+#fixed-timer:hover {
+  transform: translateY(-50%) scale(1.05); /* Giữ căn giữa dọc khi hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+#fixed-timer::before {
+  font-size: 1.9rem;
+}
+
+#fixed-time {
+  font-size: 1.9rem
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 table {
@@ -301,7 +331,7 @@ th {
 }
 
 .delete-btn {
-  background-color: #ff4444;
+  background-color: #801a08;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -310,7 +340,7 @@ th {
 }
 
 .delete-btn:hover {
-  background-color: #cc0000;
+  background-color: #801a08;
 }
 
 #addQuestionForm {
@@ -350,12 +380,12 @@ th {
 }
 
 #addQuestionForm button:last-of-type {
-  background-color: #ff4444;
+  background-color: #801a08;
   color: white;
 }
 
 #addQuestionForm button:last-of-type:hover {
-  background-color: #cc0000;
+  background-color: #801a08;
 }
 
 .history-item {
@@ -402,4 +432,15 @@ th {
 }
 .print-history-btn:hover {
   background-color: #45a049;
+}
+
+@media screen and (max-width: 600px) {
+  #fixed-timer {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+  }
+
+  #fixed-timer::before {
+    font-size: 1.5rem;
+  }
 }
