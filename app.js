@@ -15,7 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let chucvu = "";
   let donvi = "";
   const EXAM_TIME = 20 * 60; // 20 phút
-
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'F5' || (event.ctrlKey && event.key === 'r')) {
+        event.preventDefault();
+        alert('Làm mới trang bị vô hiệu hóa trong quá trình thi.');
+    }
+});
   function login() {
     username = document.getElementById("username").value.trim();
     const doituong = document.getElementById("doituong").value;
