@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let capbac = "";
   let chucvu = "";
   let donvi = "";
-  const EXAM_TIME = 30 * 60;
+  const EXAM_TIME = 20 * 60; // 20 phút
 
   function login() {
     username = document.getElementById("username").value.trim();
@@ -37,45 +37,67 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("timeLeft");
 
     isAdmin = username.toLowerCase() === "admin";
-    document.getElementById("settingsBtn").style.display = isAdmin
-      ? "inline-block"
-      : "none";
-    document.getElementById("historyBtn").style.display = "inline-block";
-    console.log("isAdmin:", isAdmin);
-
     document.getElementById("login-screen").style.display = "none";
     console.log("Ẩn login-screen");
-    document.querySelector(".container").style.display = "block";
-    console.log("Hiện container");
 
-    currentDoituong = doituong;
-    if (
-      !questions[currentDoituong] ||
-      questions[currentDoituong].length === 0
-    ) {
-      alert(
-        "Chưa có câu hỏi cho đối tượng này! Vui lòng chọn đối tượng khác hoặc thêm câu hỏi nếu bạn là admin."
-      );
-      document.getElementById("login-screen").style.display = "block";
-      document.querySelector(".container").style.display = "none";
-      return;
+    document.querySelector(".container").style.display = "block";
+
+    if (isAdmin) {
+      // Admin: Chỉ hiển thị các nút
+      document.getElementById("quiz-container").style.display = "none";
+      document.getElementById("fixed-timer").style.display = "none";
+      document.getElementById("question-nav").style.display = "none";
+      document.getElementById("submitBtn").style.display = "none";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("settingsBtn").style.display = "inline-block";
+      document.getElementById("historyBtn").style.display = "inline-block";
+      document.getElementById("historyBtn").disabled = false; // Admin có thể xem lịch sử ngay
+      document.getElementById("backBtn").style.display = "inline-block";
+      document.getElementById("backBtn").disabled = false;
+      document.querySelector(".container h1").style.display = "none"; // Ẩn tiêu đề
+    } else {
+      // Người dùng thường: Hiển thị bài thi
+      document.getElementById("quiz-container").style.display = "block";
+      document.getElementById("fixed-timer").style.display = "flex";
+      document.getElementById("question-nav").style.display = "grid";
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("result").style.display = "block";
+      document.getElementById("settingsBtn").style.display = "none";
+      document.getElementById("historyBtn").style.display = "inline-block";
+      document.getElementById("historyBtn").disabled = true; // Vô hiệu hóa nút lịch sử
+      document.getElementById("backBtn").style.display = "inline-block";
+      document.getElementById("backBtn").disabled = true; // Vô hiệu hóa nút quay lại cho đến khi nộp bài
+      document.querySelector(".container h1").style.display = "block"; // Hiện tiêu đề
+      console.log("Hiện container");
+
+      currentDoituong = doituong;
+      if (
+        !questions[currentDoituong] ||
+        questions[currentDoituong].length === 0
+      ) {
+        alert(
+          "Chưa có câu hỏi cho đối tượng này! Vui lòng chọn đối tượng khác hoặc liên hệ admin."
+        );
+        document.getElementById("login-screen").style.display = "block";
+        document.querySelector(".container").style.display = "none";
+        return;
+      }
+      isSubmitted = false;
+      taoBoDeNgauNhien();
+      hienThiCauHoi();
+      timeLeft = EXAM_TIME;
+      console.log("Thời gian được đặt:", timeLeft);
+      demNguoc();
     }
-    isSubmitted = false;
-    taoBoDeNgauNhien();
-    hienThiCauHoi();
-    timeLeft = EXAM_TIME;
-    console.log("Thời gian được đặt:", timeLeft);
-    demNguoc();
   }
 
   function demNguoc() {
-    const timeEl = document.getElementById("time");
+    const fixedTimeEl = document.getElementById("fixed-time");
     timerInterval = setInterval(() => {
       const minutes = Math.floor(timeLeft / 60);
       const seconds = timeLeft % 60;
-      timeEl.textContent = `${minutes}:${
-        seconds < 10 ? "0" + seconds : seconds
-      }`;
+      const timeText = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+      fixedTimeEl.textContent = timeText;
       timeLeft--;
 
       console.log("Thời gian còn lại:", timeLeft);
@@ -113,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let tempQuestions = questions[currentDoituong].slice();
     shuffleArray(tempQuestions);
 
-    tempQuestions.slice(0, 30).forEach((q) => {
+    tempQuestions.slice(0, 25).forEach((q) => {
       let clonedQuestion = {
         cauHoi: q.cauHoi,
         luaChon: [],
@@ -170,17 +192,28 @@ document.addEventListener("DOMContentLoaded", () => {
       quizContainer.innerHTML += html;
     });
 
-    // Tạo các nút điều hướng
     const navContainer = document.getElementById("question-nav");
     navContainer.innerHTML = "";
-    selectedQuestions.forEach((_, index) => {
+    selectedQuestions.forEach((q, index) => {
       const navBtn = document.createElement("button");
       navBtn.className = "nav-btn";
       navBtn.innerHTML = `
         <span>${index + 1}</span>
         <span class="status"></span>
       `;
-      if (answers[index] !== undefined) {
+      if (isSubmitted) {
+        const userAnswer = answers[index];
+        const correctAnswer = q.dapAn;
+        const statusSpan = navBtn.querySelector(".status");
+        if (userAnswer === correctAnswer) {
+          navBtn.classList.add("answered");
+          statusSpan.textContent = "Đúng";
+        } else {
+          navBtn.classList.add("incorrect");
+          statusSpan.textContent =
+            userAnswer !== undefined ? "Sai" : "Chưa trả lời";
+        }
+      } else if (answers[index] !== undefined) {
         navBtn.classList.add("answered");
       }
       navBtn.onclick = () => {
@@ -235,21 +268,19 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       if (userAnswer === q.dapAn) correct++;
 
-      // Cập nhật trạng thái nút điều hướng
       const navBtn = document.querySelector(
         `#question-nav .nav-btn:nth-child(${i + 1})`
       );
       if (navBtn) {
         const statusSpan = navBtn.querySelector(".status");
-        // Xóa tất cả các lớp trạng thái cũ để tránh xung đột
         navBtn.classList.remove("answered", "incorrect");
         if (userAnswer === q.dapAn) {
           navBtn.classList.add("answered");
           statusSpan.textContent = "Đúng";
         } else {
-          // Câu sai hoặc chưa trả lời đều được đánh dấu là "incorrect"
           navBtn.classList.add("incorrect");
-          statusSpan.textContent = "Sai";
+          statusSpan.textContent =
+            userAnswer !== undefined ? "Sai" : "Chưa trả lời";
         }
       }
     });
@@ -288,6 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("settingsBtn").style.display = isAdmin
       ? "inline-block"
       : "none";
+    document.getElementById("historyBtn").disabled = false; // Kích hoạt nút lịch sử
   }
 
   function showHistory() {
@@ -442,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     detailsHeader.innerHTML = `
       <h2>Chi tiết lần thi</h2>
-      <p><strong>Họ và tên:</strong> ${result.username}</p> 
+      <p><strong>Họ và tên:</strong> ${result.username}</p>
       <p><strong>Đối tượng:</strong> ${result.doituong}</p>
       <p><strong>Cấp bậc:</strong> ${result.capbac || "Không có dữ liệu"}</p>
       <p><strong>Chức vụ:</strong> ${result.chucvu || "Không có dữ liệu"}</p>
@@ -606,7 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".container").style.display = "none";
     document.getElementById("settings-screen").style.display = "block";
     clearInterval(timerInterval);
-    if (!isSubmitted) {
+    if (!isSubmitted && !isAdmin) {
       localStorage.setItem("timeLeft", timeLeft);
     }
     displayQuestionList();
@@ -617,7 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("history-screen").style.display = "none";
     document.querySelector(".container").style.display = "block";
     clearInterval(timerInterval);
-    if (!isSubmitted) {
+    if (!isSubmitted && !isAdmin) {
       let storedTime = parseInt(localStorage.getItem("timeLeft"));
       if (isNaN(storedTime) || storedTime <= 0) {
         timeLeft = EXAM_TIME;
@@ -626,8 +658,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       console.log("Thời gian đặt lại:", timeLeft);
       demNguoc();
+      hienThiCauHoi();
+    } else if (isAdmin) {
+      document.getElementById("quiz-container").style.display = "none";
+      document.getElementById("fixed-timer").style.display = "none";
+      document.getElementById("question-nav").style.display = "none";
+      document.getElementById("submitBtn").style.display = "none";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("settingsBtn").style.display = "inline-block";
+      document.getElementById("historyBtn").style.display = "inline-block";
+      document.getElementById("historyBtn").disabled = false;
+      document.getElementById("backBtn").style.display = "inline-block";
+      document.getElementById("backBtn").disabled = false;
+      document.querySelector(".container h1").style.display = "none";
     }
-    hienThiCauHoi();
   }
 
   function displayQuestionList() {
@@ -728,7 +772,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function checkLocalStorageCapacity(data) {
     try {
       const testData = JSON.stringify(data);
-      const storageLimit = 5 * 1024 * 1024; // 5MB in bytes (approximate limit for most browsers)
+      const storageLimit = 5 * 1024 * 1024;
       if (testData.length > storageLimit) {
         alert("Dung lượng localStorage đã đầy, không thể lưu thêm dữ liệu!");
         return false;
