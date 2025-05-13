@@ -20,6 +20,7 @@
   font-weight: bold;
   display: block;
   margin-left: 50px;
+  white-space: nowrap; 
 }
 .dong-nho {
   font-size: 20px;
@@ -244,7 +245,7 @@ h1 {
   font-size: 20px;
 }
 #historyBtn {
-  background-color: #bb418cd3;
+  background-color: #656264d3;
   color: white;
   cursor: pointer;
   font-size: 20px;
@@ -252,11 +253,11 @@ h1 {
 #backBtn:hover,
 #settingsBtn:hover,
 #historyBtn:hover {
-  background-color: #524e8b;
+  background-color: #5b559b;
 }
 
 #backBtn:disabled {
-  background-color: #cccccc;
+  background-color: #363232;
   cursor: not-allowed;
   font-size: 20px;
 }
@@ -268,17 +269,17 @@ h1 {
   transform: translateY(-50%); /* Dịch chuyển lên để căn giữa */
   background: linear-gradient(
     135deg,
-    #ce9797,
-    #ad7a5f
+    #121111,
+    #533423
   ); /* Gradient màu nổi bật */
   color: white;
   padding: 12px 24px;
-  border-radius: 10px; /* Bo góc mềm mại */
+  border-radius: 7px; /* Bo góc mềm mại */
   font-family: "Arial", sans-serif;
   font-weight: bold;
   font-size: 1.4rem;
   z-index: 1000;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Bóng đổ hiện đại */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Bóng đổ hiện đại */
   display: flex;
   align-items: center;
   gap: 10px;
@@ -443,4 +444,84 @@ th {
   #fixed-timer::before {
     font-size: 1.5rem;
   }
+}
+/* Style cho các nút trong button-group của test-mode-selection */
+#test-mode-selection .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Khoảng cách giữa các nút */
+  margin: 20px 0;
+}
+
+#test-mode-selection button {
+  padding: 45px 70px; /* Tăng kích thước nút */
+  font-size: 38px; /* Tăng kích thước chữ */
+  font-weight: bold;
+  color: white; /* Chữ màu trắng */
+  background-color: #a31d1d;
+  border: none;
+  border-radius: 5px; /* Bo góc nút */
+  box-shadow: 0 4px 15px rgba(74, 79, 83, 0.3); /* Đổ bóng nhẹ */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Hiệu ứng mượt khi hover */
+}
+
+#test-mode-selection button:hover {
+  background: linear-gradient(90deg, #155294, #0096cc); /* Gradient đậm hơn khi hover */
+  box-shadow: 0 6px 20px rgba(7, 8, 10, 0.5); /* Đổ bóng mạnh hơn */
+  transform: translateY(-2px); /* Nút nhấc lên nhẹ khi hover */
+}
+
+#test-mode-selection button:active {
+  transform: translateY(1px); /* Nút nhấn xuống khi click */
+  box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2); /* Giảm bóng khi nhấn */
+}
+
+/* Đảm bảo các nút trong review mode cũng đẹp */
+#review-screen button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(90deg, #0c3115, #087020); /* Gradient xanh lá cho nút quay lại */
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#review-screen button:hover {
+  background: linear-gradient(90deg, #1e7e34, #28a745);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.5);
+  transform: translateY(-2px);
+}
+
+#review-screen button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 10px rgba(40, 167, 69, 0.2);
+}
+/* Style cho màn hình ôn tập */
+#review-screen .question-block {
+  margin-bottom: 20px;
+}
+
+#review-screen .question {
+  font-size: 25px; /* Tăng cỡ chữ cho câu hỏi, ví dụ từ 16px lên 20px */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#review-screen .choices-container {
+  margin-left: 20px;
+}
+
+#review-screen .choice {
+  font-size: 25px; /* Tăng cỡ chữ cho các lựa chọn, ví dụ từ 14px lên 18px */
+  margin-bottom: 8px;
+}
+
+#review-screen .choice.correct {
+  color: #1e27a5; /* Màu xanh cho đáp án đúng */
+  font-weight: bold;
 }
