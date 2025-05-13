@@ -54,7 +54,7 @@ let questions = {
         "Nâng cao chất lượng kiểm tra, giám sát Đảng",
         "Tiếp tục thực hiện công cuộc xây dựng nông thôn mới",
       ],
-      dapAn: 1,
+      dapAn: 0,
     },
     {
       cauHoi: "Chữ vàng truyền thống của Lực lượng vũ trang Quân khu 2 là gì?",
@@ -64,7 +64,7 @@ let questions = {
         "Trung thành, Tự lực, Đoàn kết, Sáng tạo, Chiến thắng",
         "Trung thành, Tự lực, Anh dũng, Đoàn kết, Chủ động khắc phục khó khăn",
       ],
-      dapAn: 3,
+      dapAn: 0,
     },
     {
       cauHoi:
@@ -473,7 +473,7 @@ let questions = {
       dapAn: 0,
     },
     {
-      cauHoi: "16 chữ vàng truyền thống của Trung đoàn 98 là gì?",
+      cauHoi: "Chữ vàng truyền thống của Trung đoàn 98 là gì?",
       luaChon: [
         "Trung thành, kiên quyết, triệt để, đoàn kết, sáng tạo, chủ động khắc phục khó khăn",
         "Trung thành, kiên quyết, triệt để, đoàn kết, sáng tạo, chiến thắng",
@@ -558,7 +558,7 @@ let questions = {
       luaChon: [
         "Thiếu tài nguyên thiên nhiên",
         "Chịu ảnh hưởng của biến đổi khí hậu",
-        "Bị chia cắt và nội chiến",
+        "Bị chia cắt và chiến tranh",
         "Không có hoạt động thương mại quốc tế",
       ],
       dapAn: 2,
