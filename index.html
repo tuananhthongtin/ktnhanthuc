@@ -2,9 +2,7 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device=device-width, initial-scale=1.0"
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     />
     <title>Ứng dụng kiểm tra nhận thức chính trị</title>
     <link rel="stylesheet" href="style.css" />
@@ -61,29 +59,40 @@
         <button onclick="login()">📚 Vào thi</button>
       </div>
     </div>
-
     <div class="container" style="display: none">
       <h1>ĐỀ THI TRẮC NGHIỆM</h1>
+      <div
+        id="test-taker-info"
+        style="display: none; margin-bottom: 20px; font-size: 18px"
+      >
+        <p><strong>Họ và tên:</strong> <span id="info-username"></span></p>
+        <p><strong>Đối tượng:</strong> <span id="info-doituong"></span></p>
+        <p><strong>Đơn vị:</strong> <span id="info-donvi"></span></p>
+        <p><strong>Cấp bậc:</strong> <span id="info-capbac"></span></p>
+        <p><strong>Chức vụ:</strong> <span id="info-chucvu"></span></p>
+      </div>
+      <div class="button-group" id="test-mode-selection">
+        <button onclick="startRealTest()">📝 Thi thật</button>
+        <button onclick="startPracticeTest()">📚 Thi thử</button>
+        <button onclick="showReviewScreen()">📖 Ôn tập câu hỏi</button>
+      </div>
       <div id="quiz-container"></div>
-      <!-- Thanh điều hướng câu hỏi -->
-      <div id="question-nav">
-        <!-- Các nút điều hướng sẽ được tạo động bằng JavaScript -->
+      <div id="question-nav"></div>
+      <div id="fixed-timer" style="display: none">
+        ⏳ Thời gian còn lại: <span id="fixed-time">--:--</span>
       </div>
       <div id="result"></div>
       <div class="button-group">
         <button id="submitBtn" onclick="nopBai()">📝 Nộp bài</button>
-        <button id="backBtn" onclick="quayVeTrangChu()" disabled>
+        <button id="backBtn" onclick="quayVeTrangChu()">
           🏠 Quay về trang chủ
         </button>
-        <button id="settingsBtn" onclick="showSettings()" style="display: none">
+        <button id="settingsBtn" onclick="showSettings()">
           ⚙️ Cài đặt bộ đề
         </button>
-        <button id="historyBtn" onclick="showHistory()" style="display: none">
+        <button id="historyBtn" onclick="showHistory()">
           📜 Xem lịch sử thi
         </button>
-      </div>
-      <div id="fixed-timer">
-        ⏳ Thời gian còn lại: <span id="fixed-time">--:--</span>
       </div>
     </div>
 
@@ -91,10 +100,8 @@
       <h1>QUẢN LÝ BỘ ĐỀ</h1>
       <button onclick="showAddQuestionForm()">➕ Thêm câu hỏi</button>
       <button onclick="backToQuiz()">🔙 Quay lại bài thi</button>
-      <h2>Thống kê bộ đề</h2>
-      <div id="stats"></div>
-      <h2>Danh sách câu hỏi</h2>
-      <table border="1">
+      <div id="stats">Thống kê bộ đề</div>
+      <table>
         <thead>
           <tr>
             <th>Đối tượng</th>
@@ -104,7 +111,6 @@
         </thead>
         <tbody id="questionTable"></tbody>
       </table>
-
       <div id="addQuestionForm" style="display: none">
         <h2>Thêm/Sửa câu hỏi</h2>
         <label for="questionDoituong">Đối tượng:</label>
@@ -113,11 +119,15 @@
           <option value="Chiensimoi">Chiến sĩ mới</option>
           <option value="Chiensinamthunhat">Chiến sĩ năm thứ nhất</option>
           <option value="Chiensinamthuhai">Chiến sĩ năm thứ hai</option>
-          <option value="Lopnhanthucvedang">Lớp nhận thức về đảng</option>
-          <option value="Lopdangvienmoi">Lớp đảng viên mới</option></select
-        ><br />
+          <option value="Lopboiduongnhanthucdang">Lớp nhận thức về đảng</option>
+          <option value="Lopdangvienmoi">Lớp đảng viên mới</option>
+        </select>
         <label for="questionText">Câu hỏi:</label>
-        <textarea id="questionText" rows="2"></textarea><br />
+        <textarea
+          id="questionText"
+          rows="3"
+          placeholder="Nhập câu hỏi..."
+        ></textarea>
         <label>Lựa chọn:</label>
         <div id="options">
           <input type="text" class="option" placeholder="Lựa chọn 1" /><br />
@@ -130,11 +140,17 @@
           <option value="0">Lựa chọn 1</option>
           <option value="1">Lựa chọn 2</option>
           <option value="2">Lựa chọn 3</option>
-          <option value="3">Lựa chọn 4</option></select
-        ><br />
+          <option value="3">Lựa chọn 4</option>
+        </select>
         <button onclick="saveQuestion()">💾 Lưu</button>
         <button onclick="cancelEdit()">❌ Hủy</button>
       </div>
+    </div>
+
+    <div id="review-screen" style="display: none">
+      <h1>ÔN TẬP CÂU HỎI</h1>
+      <button onclick="backToQuiz()">🔙 Quay lại bài thi</button>
+      <div id="review-questions"></div>
     </div>
 
     <div id="history-screen" style="display: none">
@@ -143,8 +159,10 @@
       </div>
       <div id="history-list"></div>
       <div id="detailed-results"></div>
-      <div id="detail-screen" style="display: none"></div>
       <button onclick="backToQuiz()">🔙 Quay lại bài thi</button>
     </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
