@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let chucvu = "";
   let donvi = "";
   let isPracticeMode = false;
-  const EXAM_TIME = 20 * 60;
+  const EXAM_TIME = 0.2 * 60;
 
   if (typeof questions === "undefined") {
     console.error("Error: 'questions' is not defined. Check questions.js");
@@ -248,8 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (timeLeft <= 0 && !isSubmitted) {
         clearInterval(timerInterval);
         timerInterval = null;
-        alert("Hết giờ làm bài!");
-        nopBai();
+        isSubmitted = true; // Đánh dấu đã nộp để tránh gọi lại
+        nopBai(true); // Truyền tham số để bỏ qua xác nhận
       }
     }, 1000);
   }
@@ -377,7 +377,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function chonDapAn(questionIndex, choice) {
     console.log("chonDapAn called:", questionIndex, choice);
-    if (!isSubmitted) {
+    if (!isSubmitted && timeLeft > 0) {
+      // Chỉ cho phép chọn nếu chưa nộp và còn thời gian
       answers[questionIndex] = choice;
       const navBtn = document.querySelector(
         `#question-nav .nav-btn:nth-child(${questionIndex + 1})`
@@ -391,9 +392,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function nopBai() {
+  function nopBai(bypassConfirm = false) {
     console.log("nopBai called");
-    if (!isPracticeMode && !confirm("Bạn có chắc chắn muốn nộp bài không?")) {
+    if (
+      !isPracticeMode &&
+      !bypassConfirm &&
+      !confirm("Bạn có chắc chắn muốn nộp bài không?")
+    ) {
       return;
     }
 
@@ -409,7 +414,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Kiểm tra selectedQuestions và answers
     if (!selectedQuestions || selectedQuestions.length === 0) {
       console.error("No questions to grade! selectedQuestions is empty.");
       result.innerHTML = "<p>Lỗi: Không có câu hỏi để chấm điểm!</p>";
@@ -424,7 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let correct = 0;
     const tongCau = selectedQuestions.length;
 
-    // Cập nhật giao diện câu hỏi với kết quả
     selectedQuestions.forEach((q, i) => {
       const userAnswer = answers[i];
       const questionBlock = document.querySelector(
@@ -486,6 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isPracticeMode) {
       document.getElementById("submitBtn").style.display = "none";
+      document.getElementById("backBtn").style.display = "inline-block"; // Đảm bảo nút Quay lại hiển thị
       document.getElementById("backBtn").disabled = false;
       document.getElementById("historyBtn").disabled = false;
       document.getElementById("historyBtn").style.display = "inline-block";
@@ -519,6 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("submitBtn").style.display = "none";
+    document.getElementById("backBtn").style.display = "inline-block"; // Đảm bảo nút Quay lại hiển thị
     document.getElementById("backBtn").disabled = false;
     document.getElementById("settingsBtn").style.display = isAdmin
       ? "inline-block"
@@ -526,7 +531,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("historyBtn").disabled = false;
     hienThiCauHoi();
   }
-
   function showHistory() {
     console.log("showHistory called");
     document.querySelector(".container").style.display = "none";
@@ -862,6 +866,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function backToQuiz() {
     console.log("backToQuiz called");
+
+    // Thêm xác nhận nếu đang trong chế độ thi thử và chưa nộp bài
+    if (isPracticeMode && !isSubmitted) {
+      if (
+        !confirm("Bạn có chắc chắn muốn quay lại? Tiến độ bài thi sẽ bị mất!")
+      ) {
+        return;
+      }
+    }
+
     document.getElementById("settings-screen").style.display = "none";
     document.getElementById("history-screen").style.display = "none";
     document.getElementById("review-screen").style.display = "none";
@@ -877,6 +891,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("result").style.display = "none";
       document.getElementById("test-taker-info").style.display = "none";
       document.getElementById("historyBtn").style.display = "inline-block";
+      document.getElementById("backBtn").style.display = "inline-block"; // Đảm bảo nút Quay lại hiển thị
+      document.getElementById("backBtn").disabled = false; // Kích hoạt nút Quay lại
       document.querySelector(".container h1").style.display = "block";
     } else {
       document.getElementById("test-mode-selection").style.display = "none";
@@ -894,7 +910,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelector(".container h1").style.display = "none";
     }
   }
-
   function displayQuestionList() {
     console.log("displayQuestionList called");
     const tbody = document.querySelector("#questionTable");
