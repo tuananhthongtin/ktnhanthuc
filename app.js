@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let chucvu = "";
   let donvi = "";
   let isPracticeMode = false;
-  const EXAM_TIME = 0.2 * 60;
+  const EXAM_TIME = 20 * 60;
 
   if (typeof questions === "undefined") {
     console.error("Error: 'questions' is not defined. Check questions.js");
